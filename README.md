@@ -18,31 +18,59 @@ dependencies:
 
 ### Load and run your rune file
 
+Load and run your rune file in three steps:
+
+#### Deploy
+Future<bool> RunevmFl.loadWASM(Uint8List runeBytes)
+
+#### Read manifest
+Future<dynamic> RunevmFl.manifest
+
+#### Run rune with input bytes
+Future<String> RunevmFl.runRune(Uint8List input)
+
 ```dart
 
 import 'package:runevm_fl/runevm_fl.dart';
-import 'dart:typed_data';
-import 'dart:async';
 
 class RunMyRune {
 
-  RunMyRune() {
-    initAndRunRune([5,128,12,39]);
-  }
+  double _input = 0;
+  String? _output;
 
-  initAndRunRune(List<int> input) async {
+  Future<void> _loadRune() async {
     try {
-      bytes = await rootBundle.load('assets/microspeech.rune');
+      //Load Rune from assets into memory;
+      ByteData bytes = await rootBundle.load('assets/sine.rune');
       bool loaded =
-          await RunevmFl.loadWASM(bytes!.buffer.asUint8List()) ?? false;
+          await RunevmFl.loadWASM(bytes.buffer.asUint8List()) ?? false;
+      print("Rune deployed:");
       if (loaded) {
+        //Read Manifest with capabilities
         String manifest = (await RunevmFl.manifest).toString();
         print("Manifest loaded: $manifest");
       }
     } on Exception {
       print('Failed to init rune');
     }
-    String? output = await RunevmFl.runRune(Uint8List.fromList(input));
+    setState(() {
+      _loaded = true;
+    });
+  }
+
+  void _runRune() async {
+    try {
+      Random rand = Random();
+      _input = rand.nextDouble() * 2 * pi;
+      //convert input to 4 bytes representing a Float32 (See assets/Runefile)
+      Uint8List inputBytes = Uint8List(4)
+        ..buffer.asByteData().setFloat32(0, _input, Endian.little);
+      //Run rune with the inputBytes
+      _output = await RunevmFl.runRune(inputBytes);
+      setState(() {});
+    } on Exception {
+      print('Failed to run rune');
+    }
   }
 
 }
