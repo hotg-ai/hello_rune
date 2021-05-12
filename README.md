@@ -21,13 +21,20 @@ dependencies:
 Load and run your rune file in three steps:
 
 #### Deploy
+```dart
 Future<bool> RunevmFl.loadWASM(Uint8List runeBytes)
-
+```
 #### Read manifest
 Future<dynamic> RunevmFl.manifest
-
+```
 #### Run rune with input bytes
+```dart
 Future<String> RunevmFl.runRune(Uint8List input)
+```
+
+#### Implementation
+
+Full implementatoin in [main.dart](lib/main.dart)
 
 ```dart
 
