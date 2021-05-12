@@ -91,8 +91,7 @@ No extra config needed
 
 ### iOS
 
-I you are creating a new app,
-First run 
+If you are creating a new app, first run :
 ```console
 foo@bar:~$ flutter run
 ```
