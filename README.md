@@ -25,6 +25,7 @@ Load and run your rune file in three steps:
 Future<bool> RunevmFl.loadWASM(Uint8List runeBytes)
 ```
 #### Read manifest
+```dart
 Future<dynamic> RunevmFl.manifest
 ```
 #### Run rune with input bytes
