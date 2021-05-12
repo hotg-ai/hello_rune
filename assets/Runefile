@@ -1,0 +1,10 @@
+FROM runicos/base
+
+CAPABILITY input RAW
+PROC_BLOCK<F32,F32> mod360 hotg-ai/rune#proc_blocks/modulo --modulus 360.0
+
+MODEL<F32, F32> sine ./sinemodel.tflite
+
+OUT serial
+
+RUN input mod360 sine serial
