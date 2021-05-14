@@ -46,8 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       //Load Rune from assets into memory;
       ByteData bytes = await rootBundle.load('assets/sine.rune');
-      bool loaded =
-          await RunevmFl.loadWASM(bytes.buffer.asUint8List()) ?? false;
+      bool loaded = await RunevmFl.load(bytes.buffer.asUint8List()) ?? false;
       print("Rune deployed:");
       if (loaded) {
         //Read Manifest with capabilities

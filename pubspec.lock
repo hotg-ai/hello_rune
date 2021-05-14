@@ -103,12 +103,10 @@ packages:
   runevm_fl:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: f6e3435fc11bea54b15b95e8b34dfde1db19328e
-      url: "https://github.com/hotg-ai/runevm_fl.git"
-    source: git
-    version: "0.1.0"
+      name: runevm_fl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.3"
   sky_engine:
     dependency: transitive
     description: flutter
