@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'dart:math';
+import 'package:hello_rune/graph.dart';
 import 'package:runevm_fl/runevm_fl.dart';
 import 'dart:typed_data';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,6 +36,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool _loaded = false;
+
+  List<Map> _results = [];
+
   double _input = 0;
   String? _output;
 
@@ -70,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ..buffer.asByteData().setFloat32(0, _input, Endian.little);
       //Run rune with the inputBytes
       _output = await RunevmFl.runRune(inputBytes);
+      _results.add({"in": _input, "out": jsonDecode(_output!)[0]});
       setState(() {});
     } on Exception {
       print('Failed to run rune');
@@ -92,6 +99,12 @@ class _MyHomePageState extends State<MyHomePage> {
               Text(
                 'Rune Output: $_output',
               ),
+              Container(
+                  height: 240,
+                  padding: const EdgeInsets.all(20),
+                  child: LineChart(
+                    sineData(_results),
+                  ))
             ],
           ),
         ),
